@@ -1,6 +1,7 @@
 const express  = require('express')
   , session  = require('express-session')
   , passport = require('passport')
+  , bodyParser = require('body-parser')
   , Strategy = require('passport-discord').Strategy
   , app      = express();
 
@@ -36,6 +37,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // passport.authenticate('discord', { scope: scopes, prompt: prompt })
 app.get('/', checkAuth, checkTeamMember, function(req, res) {
@@ -50,6 +52,9 @@ app.get('/callback',
 app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
+});
+app.post('/cards', function(req, res) {
+   console.log(req.body)
 });
 app.get('/info', checkAuth, function(req, res) {
     //console.log(req.user)

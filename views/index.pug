@@ -1,1 +1,11 @@
 h1 Management panel
+form(action='/cards' method='post'  enctype=' application/x-www-form-urlencoded')
+    label(for='fname') First name:
+    input#fname(type='text' name='fname')
+    br
+    br
+    label(for='lname') Last name:
+    input#lname(type='text' name='lname')
+    br
+    br
+    input(type='submit' value='Submit')
