@@ -31,7 +31,7 @@ passport.use(new Strategy({
 }));
 
 app.use(session({
-    secret: 'keyboard cat',
+    secret: 'jammy whammies',
     resave: false,
     saveUninitialized: false
 }));
