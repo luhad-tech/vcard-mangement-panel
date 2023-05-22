@@ -40,7 +40,7 @@ app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // passport.authenticate('discord', { scope: scopes, prompt: prompt })
-app.get('/', checkAuth, checkTeamMember, function(req, res) {
+app.get('/', function(req, res) {
     res.render('index')
 });
 

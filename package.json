@@ -5,6 +5,9 @@
   "repository": "https://github.com/luhad-tech/vcard-mangement-panel.git",
   "author": "Hayden <hayden@luhad.tech>",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon ."
+  },
   "private": true,
   "dependencies": {
     "body-parser": "^1.20.2",
