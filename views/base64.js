@@ -99,6 +99,14 @@ const handleForm = async (event) => {
     data[key] = file
   })
 
+  // Iterate over the data object
+  Object.entries(data).forEach(item => {
+    if (item === "") {
+      // If empty string replace with null
+      data[item] = null;
+    }
+  })
+  
   fetch('http://localhost:5000/cards', {
     method: 'POST',
     body: JSON.stringify(data),
