@@ -34,7 +34,7 @@ const pool = new Pool({
   try {
     await client.query('BEGIN')
     const queryText = 'INSERT INTO public.vcf_cards (uuid, email, firstname, lastname, middlename, organization, photo, w_phone, title, url, workurl, note, nickname, prefix, suffix, gender, role, h_phone, c_phone, p_phone, h_fax, w_fax, h_email, w_email, alias, h_address, w_address) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)'
-    await client.query(queryText, [uuid.v4(), data.email, data.fname, data.lname, data.mname, data.org, data.photo, data.w_phone, data.title, data.url, data.workurl, data.note, data.nickname, data.prefix, data.suffix, data.gender, data.role, data.h_phone, data.c_phone, data.p_phone, data.h_fax, [null], ['hderifield2005@outlook.com'], ['hayden@luhad.tech'], '/hayden', {street: null, city: null, state: null, code: null, country: null}, {street: null, city: null, state: null, code: null, country: null}])
+    await client.query(queryText, [uuid.v4(), data.email, data.fname, data.lname, data.mname, data.org, data.photo, [data.w_phone], data.title, data.url, data.workurl, data.note, data.nickname, data.prefix, data.suffix, data.gender, data.role, [data.h_phone], [data.c_phone], [data.p_phone], [data.h_fax], [data.w_fax], [data.h_email], [data.w_email], data.alias, data.h_address, data.w_address])
     await client.query('COMMIT')
   } catch (e) {
     await client.query('ROLLBACK')
@@ -82,10 +82,8 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 app.post('/cards', checkAuth, checkTeamMember, function(req, res) {
-    console.log(req.body)
-    res.send('sent!')
-    console.log(req.body.org)
-    // query(req.body);
+    res.json({message: 'sent!'})
+    query(req.body);
 });
 app.get('/info', checkAuth, function(req, res) {
     //console.log(req.user)
