@@ -4,8 +4,8 @@ const express  = require('express')
   , bodyParser = require('body-parser')
   , Strategy = require('passport-discord').Strategy
   , app      = express()
-  , ba64 = require('ba64')
-  , cors = require('cors');
+  , cors = require('cors')
+  , uuid = require('uuid');
 
 require('dotenv').config();
 app.set('view engine', 'pug')
@@ -19,6 +19,30 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
+const { Pool, Client } = require('pg')
+require('dotenv').config();
+
+const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
+const connectionString = `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?sslmode=require`
+
+const pool = new Pool({
+  connectionString,
+})
+// {street: null, city: null, state: null, code: null, country: null}
+ async function query(data) {
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+    const queryText = 'INSERT INTO public.vcf_cards (uuid, email, firstname, lastname, middlename, organization, photo, w_phone, title, url, workurl, note, nickname, prefix, suffix, gender, role, h_phone, c_phone, p_phone, h_fax, w_fax, h_email, w_email, alias, h_address, w_address) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)'
+    await client.query(queryText, [uuid.v4(), data.email, data.fname, data.lname, data.mname, data.org, data.photo, data.w_phone, data.title, data.url, data.workurl, data.note, data.nickname, data.prefix, data.suffix, data.gender, data.role, data.h_phone, data.c_phone, data.p_phone, data.h_fax, [null], ['hderifield2005@outlook.com'], ['hayden@luhad.tech'], '/hayden', {street: null, city: null, state: null, code: null, country: null}, {street: null, city: null, state: null, code: null, country: null}])
+    await client.query('COMMIT')
+  } catch (e) {
+    await client.query('ROLLBACK')
+    console.log(e)
+  } finally {
+    client.release()
+  }
+ }
 const scopes = ['identify', 'email', 'guilds', 'guilds.join'];
 const prompt = 'consent'
 
@@ -59,6 +83,9 @@ app.get('/logout', function(req, res) {
 });
 app.post('/cards', checkAuth, checkTeamMember, function(req, res) {
     console.log(req.body)
+    res.send('sent!')
+    console.log(req.body.org)
+    // query(req.body);
 });
 app.get('/info', checkAuth, function(req, res) {
     //console.log(req.user)

@@ -42,7 +42,7 @@ fileInput.addEventListener('change', async (event) => {
 
   Promise.all(filePromises)
     .then(() => {
-      console.log('ready to submit')
+      console.log('File ready')
       isFilesReady = true
     })
     .catch((error) => {
@@ -107,6 +107,10 @@ const handleForm = async (event) => {
       Accept: 'application/json'
     }
   })
+  .then(r => r.json())
+  .then(res => {
+    console.log(res);
+  });
 }
 
 formElement.addEventListener('submit', handleForm)
