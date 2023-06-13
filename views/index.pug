@@ -1,5 +1,5 @@
 h1 Management panel
-form(action='/cards' method='post'  enctype=' application/x-www-form-urlencoded')
+form#form(action='/cards' method='post'  enctype=' application/json')
     label(for='email') Email:
     input#email(type='email' name='email')
     br
@@ -21,7 +21,7 @@ form(action='/cards' method='post'  enctype=' application/x-www-form-urlencoded'
     br
     br
     label(for='photo') Photo:
-    input#photo(type='file' name='photo')
+    input#photo(type='file' name='photo' accept="image/*")
     br
     br
     label(for='w_phone') Work Phone:
@@ -105,3 +105,5 @@ form(action='/cards' method='post'  enctype=' application/x-www-form-urlencoded'
     br
     br
     input(type='submit' value='Submit')
+    script
+      include base64.js

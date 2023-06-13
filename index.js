@@ -3,10 +3,14 @@ const express  = require('express')
   , passport = require('passport')
   , bodyParser = require('body-parser')
   , Strategy = require('passport-discord').Strategy
-  , app      = express();
+  , app      = express()
+  , ba64 = require('ba64')
+  , cors = require('cors');
 
 require('dotenv').config();
 app.set('view engine', 'pug')
+
+app.use(cors());
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -37,7 +41,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // passport.authenticate('discord', { scope: scopes, prompt: prompt })
 app.get('/', checkAuth, checkTeamMember, function(req, res) {
@@ -50,11 +54,11 @@ app.get('/callback',
     passport.authenticate('discord', { failureRedirect: '/login_failed' }), function(req, res) { res.redirect('/') } // auth success
 );
 app.get('/logout', function(req, res) {
-    req.logout();
+    req.logout(err => {console.log(err)});
     res.redirect('/');
 });
-app.post('/cards', function(req, res) {
-   console.log(req.body)
+app.post('/cards', checkAuth, checkTeamMember, function(req, res) {
+    console.log(req.body)
 });
 app.get('/info', checkAuth, function(req, res) {
     //console.log(req.user)
