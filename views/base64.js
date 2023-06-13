@@ -101,9 +101,16 @@ const handleForm = async (event) => {
 
   // Iterate over the data object
   Object.entries(data).forEach(item => {
+<<<<<<< HEAD
+    const [key, form_data] = item
+    if (form_data === "") {
+      // If empty string replace with null
+      data[key] = null;
+=======
     if (item[1] === "") {
       // If empty string replace with null
       data[item[0]] = null;
+>>>>>>> b47679ca41ce39a73a61d224eda2b4c5edd0cfd1
     }
   })
   
