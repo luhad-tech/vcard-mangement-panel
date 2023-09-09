@@ -1,8 +1,5 @@
 {
-    "cSpell.words": [
-        "fname",
-        "lname",
-        "mname",
-        "workurl"
+    "conventionalCommits.scopes": [
+        "v2.0.0-overall"
     ]
 }
